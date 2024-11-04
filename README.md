@@ -9,7 +9,9 @@ step 4: open vs code terminal
 step 5: copy the  folowing into terminal 
 
   "python3 -m pip install -U pip"
+  
   "python3 -m pip install -U matplotlib"
+  
   "python3 -m pip install networkx" 
 
 step 6: run the code by typing
