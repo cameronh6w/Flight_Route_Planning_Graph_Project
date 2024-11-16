@@ -149,8 +149,9 @@ nx.draw_networkx_edge_labels(G, pos = positions, edge_labels=edge_labels, font_s
 start_patch = mpatches.Patch(color="green", label="Start Airport")
 end_patch = mpatches.Patch(color="red", label="End Airport")
 other_patch = mpatches.Patch(color="yellow", label="Other Airports")
-plt.legend(handles=[start_patch, end_patch, other_patch], loc="lower right")
+plt.legend(handles=[start_patch, end_patch, other_patch], loc="lower right", fontsize=6)
 
+# Print the shortest path
 print("Shortest path from node", start_airport, "to node", end_airport, ":")
 for i in range(len(shortest_path) - 1):
     u = shortest_path[i]
