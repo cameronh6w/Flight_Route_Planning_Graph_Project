@@ -142,7 +142,7 @@ path_edges = list(zip(shortest_path, shortest_path[1:]))
 nx.draw_networkx_edges(G, pos = positions, edgelist = path_edges, edge_color = "red",width = 2)
 
 # edge_labels = {(u, v): f"{d['weight']} miles" for u, v, d in G.edges(data=True)}
-edge_labels = {(u, v): f"{d.get('weight', 'N/A')} miles" for u, v, d in G.edges(data=True)}
+edge_labels = {(u, v): f"{d.get('weight', 'N/A')} MI" for u, v, d in G.edges(data=True)}
 nx.draw_networkx_edge_labels(G, pos = positions, edge_labels=edge_labels, font_size = 5, font_color="blue")
 
 # Add legend
