@@ -48,7 +48,7 @@ edges = ([
         ("LAX","LAS",240),
         ("LAS","PHX",260),
         ("LAS","DEN",630),
-        ("DEN","MCI",531), #
+        ("MCI","DEN",531), #
         ("DEN","LBF",241),
         ("DEN","WYS",470),
         ("PHX","DEN",600),
@@ -102,6 +102,29 @@ print("AVAILABLE AIRPORTS:")
 for code_name, full_name in airport_full_names.items():
     print(f"{code_name}: {full_name}")
 
+
+#create dictinoary of the incoming and outgoing flight count
+flights = {
+    "SEA": (0, 0), "LAX": (0, 0), "LAS": (0, 0), "PHX": (0, 0), "ABQ": (0, 0),
+    "DEN": (0, 0), "WYS": (0, 0), "LBF": (0, 0), "DFW": (0, 0), "MCI": (0, 0),
+    "MSP": (0, 0), "ORD": (0, 0), "DTW": (0, 0), "JFK": (0, 0), "BOS": (0, 0),
+    "PHL": (0, 0), "IND": (0, 0), "CLT": (0, 0), "MCO": (0, 0),
+    "ATL": (0, 0)
+}
+
+for a in all_airports:
+    incount=0
+    outcount=0
+    for e in edges:
+        if(e[0] == a):
+            outcount =  outcount + 1
+        if(e[1] == a):
+            incount =  incount + 1
+    flights.pop(a)
+    flights.update({a:(outcount,incount)})
+
+
+
 # get user input for starting and ending nodes
 while True:
     try:
@@ -109,9 +132,16 @@ while True:
         if start_airport not in all_airports:
             raise ValueError("Invalid starting airport code.")
         
+        if (flights.get(start_airport)[0] == 0):
+            raise ValueError(f"Airport {start_airport} has no outgoing flights")
+        
         end_airport = input("Choose your ending airport (enter code): ")
         if end_airport not in all_airports:
             raise ValueError("Invalid ending airport code.")
+        
+        if (flights.get(end_airport)[1] == 0):
+            raise ValueError(f"Airport {end_airport} has no incoming flights")
+        
         
         break
 
@@ -161,7 +191,38 @@ for i in range(len(shortest_path) - 1):
 
 print(f"\nTotal distance from {start_airport} to {end_airport}: {shortest_distance} miles")
 
+
+
+# finds the airport hubs with the most flights
+mostIncoming = ""
+mostOutgoing = ""
+most = ""
+incount = 0
+outcount = 0
+mostcount = 0
+
+for f in flights:
+    if flights[f][0] ==  outcount:
+        mostOutgoing = mostOutgoing + ", " + f
+
+    if flights[f][0] >  outcount:
+        mostOutgoing = f
+        outcount  = flights[f][0]
+   
+    if flights[f][1] ==  incount:
+        mostIncoming = mostIncoming + ", " + f
+
+    if flights[f][1] >  incount:
+        mostIncoming = f
+        incount  = flights[f][1]
+
+    if (flights[f][0] + flights[f][1]) >  mostcount:
+        most = f
+        mostcount  = (flights[f][0] + flights[f][1])
+
+print(f"\n\nAirport with the most incoming flights: {mostIncoming}")
+print(f"\nAirport with the most outgoing flights: {mostOutgoing}")
+print(f"\nAirport with the most flights: {most}")
+
 plt.savefig("flightNetworkGraph.png")
 plt.show()
-
-
